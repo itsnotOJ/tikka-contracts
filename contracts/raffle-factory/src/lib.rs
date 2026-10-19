@@ -167,7 +167,6 @@ pub enum DataKey {
     WhitelistedPartner(Address),
     PartnerStats(Address),
     PartnersList,
-    IsFactoryRaffle(Address),
     ApprovedOracle(Address),
     TopByTickets,
     TopByPrize,
@@ -420,11 +419,6 @@ pub(crate) fn create_raffle_internal(
     env.storage()
         .persistent()
         .set(&DataKey::RaffleById(stable_id), &raffle_address);
-    // Reverse index so the factory can authorise bookkeeping calls from
-    // instances it deployed (#795).
-    env.storage()
-        .persistent()
-        .set(&DataKey::IsFactoryRaffle(raffle_address.clone()), &true);
     env.storage()
         .persistent()
         .set(&DataKey::NextRaffleId, &(stable_id.saturating_add(1)));
