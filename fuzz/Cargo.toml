@@ -12,6 +12,10 @@ authors = ["Tikka Team"]
 keywords = ["soroban", "stellar", "raffle", "defi", "blockchain"]
 categories = ["development-tools::testing"]
 
+# Mark this crate as a cargo-fuzz project
+[package.metadata]
+cargo-fuzz = true
+
 # ── cargo-fuzz targets ──────────────────────────────────────────────────────
 [[bin]]
 name = "fuzz_buy_ticket"
