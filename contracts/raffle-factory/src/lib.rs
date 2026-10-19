@@ -558,10 +558,10 @@ impl RaffleFactory {
     ///
     /// # Parameters
     ///
-    /// - `protocol_fee_bp` — New protocol fee in basis points (max
-    ///   [`MAX_PROTOCOL_FEE_BP`] = 2 000).
-    /// - `treasury` — New treasury address. Must not be the zero contract
-    ///   address or the factory's own address.
+    /// - `key` — Which configuration address to update. See [`ConfigKey`] for
+    ///   the available options (`Treasury`, `Oracle`, `SwapRouter`).
+    /// - `address` — New address for the selected configuration. Must not be
+    ///   the zero contract address or the factory's own address.
     ///
     /// # Returns
     ///
@@ -570,8 +570,7 @@ impl RaffleFactory {
     /// # Errors
     ///
     /// - [`ContractError::NotAuthorized`] — caller is not the admin.
-    /// - [`ContractError::InvalidParameters`] — fee exceeds cap or treasury
-    ///   address is invalid.
+    /// - [`ContractError::InvalidParameters`] — `address` is invalid.
     ///
     /// # Events
     ///
