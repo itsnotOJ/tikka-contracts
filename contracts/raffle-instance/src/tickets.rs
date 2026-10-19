@@ -316,7 +316,7 @@ pub(crate) fn buy_tickets(env: Env, buyer: Address, quantity: u32) -> Result<u32
         ticket_ids,
         quantity,
         ticket_price: raffle.ticket_price,
-        effective_ticket_price: raffle.ticket_price,
+        effective_ticket_price: effective_price,
         total_paid: total_price,
         protocol_fee,
         timestamp,
@@ -457,18 +457,6 @@ pub(crate) fn buy_tickets_for(env: Env, buyer: Address, recipient: Address, quan
     }
 
     let timestamp = env.ledger().timestamp();
-        fix/security-checks-effects-763
-    let ticket_total = raffle
-        .ticket_price
-        .checked_mul(quantity as i128)
-        .ok_or(Error::ArithmeticOverflow)?;
-    let protocol_fee = apply_bp(ticket_total, raffle.protocol_fee_bp)
-        .ok_or(Error::ArithmeticOverflow)?;
-
-    let total_price = ticket_total
-        .checked_add(protocol_fee)
-        .ok_or(Error::ArithmeticOverflow)?;
-        master
     let quote = calculate_buy_quote(&raffle, quantity)?;
     let total_price = quote.net_to_pay;
     let protocol_fee = quote.fee;
@@ -591,7 +579,7 @@ pub(crate) fn buy_tickets_for(env: Env, buyer: Address, recipient: Address, quan
         ticket_ids,
         quantity,
         ticket_price: raffle.ticket_price,
-        effective_ticket_price: raffle.ticket_price,
+        effective_ticket_price: effective_price,
         total_paid: total_price,
         protocol_fee,
         timestamp,
