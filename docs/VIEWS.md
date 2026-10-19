@@ -34,6 +34,7 @@ Every paginated view returns `PageResultRaffles { items, total, has_more }`:
 | `get_total_volume` | `i128` | None | Cumulative ticket-sale volume per asset |
 | `get_admin` | `Result<Address>` | None | Current admin address |
 | `get_raffles_page` | `PageResultRaffles` | None | Paginated live raffles by stable ID |
+| `get_all_raffles` | `Vec<Address>` | None | All live raffle addresses (unpaginated) |
 | `get_raffles_by_creator` | `PageResultRaffles` | None | Paginated raffles for a creator |
 | `get_raffles_by_category` | `PageResultRaffles` | None | Paginated raffles by category tag |
 | `get_checkpoint` | `Option<StateCheckpoint>` | None | Periodic state snapshot by index |

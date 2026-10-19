@@ -179,6 +179,32 @@ impl RaffleFactory {
         }
     }
 
+    /// Return all live raffle addresses (unpaginated).
+    ///
+    /// This is a convenience function for clients that need to fetch all
+    /// raffles at once. For large datasets, prefer the paginated
+    /// [`get_raffles_page`](Self::get_raffles_page) to avoid hitting
+    /// contract resource limits.
+    pub fn get_all_raffles(env: Env) -> Vec<Address> {
+        let next_id: u32 = env
+            .storage()
+            .persistent()
+            .get(&DataKey::NextRaffleId)
+            .unwrap_or(0u32);
+
+        let mut items: Vec<Address> = Vec::new(&env);
+        for id in 0..next_id {
+            if let Some(addr) = env
+                .storage()
+                .persistent()
+                .get::<_, Address>(&DataKey::RaffleById(id))
+            {
+                items.push_back(addr);
+            }
+        }
+        items
+    }
+
     /// Return a paginated list of raffle addresses created by `creator`.
     pub fn get_raffles_by_creator(
         env: Env,
